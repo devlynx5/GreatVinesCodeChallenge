@@ -18,7 +18,7 @@ public with sharing class AccountTriggerHandler {
 
     // SOQL forloop to get all the accounts that have parent status as cold
     for (Account record : accountSelector.getAccount(updatedAccount.keySet()))
-      if (record.Rating == 'Cold') {
+      if (record.Rating == 'Cold' && record.ParentId == null) {
         // single child account
         Account childAccount = new Account();
         childAccount.Name = record.Name;
@@ -30,10 +30,10 @@ public with sharing class AccountTriggerHandler {
       }
     if (accountsToUpdate.size() > 0) {
       SObjectAccessDecision securityDecision = Security.stripInaccessible(
-        AccessType.CREATABLE,
+        AccessType.UPSERTABLE,
         accountsToUpdate
       );
-      insert securityDecision.getRecords();
+      upsert securityDecision.getRecords();
     }
   }
 }

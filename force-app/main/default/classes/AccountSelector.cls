@@ -14,7 +14,7 @@ public with sharing class AccountSelector {
    **/
   public List<Account> getAccount(Set<Id> ids) {
     return [
-      SELECT Id, Name, Rating
+      SELECT Id, Name, Rating, ParentId
       FROM Account
       WHERE Id IN :ids
       WITH SECURITY_ENFORCED

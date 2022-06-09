@@ -18,7 +18,7 @@ public class TestAccountTriggerHandler {
   }
 
   /**
-   * @description : Test Methods to assert accounts are created when the parent is set to Cold
+   * @description : Test Methods to assert accounts are updated when the parent is set to Cold
    * @author Denzyl Evelyn | 06-09-2022
    **/
   @isTest
@@ -30,6 +30,32 @@ public class TestAccountTriggerHandler {
 
       accounts.add(record);
     }
+    SObjectAccessDecision securityDecision = Security.stripInaccessible(
+      AccessType.UPDATABLE,
+      accounts
+    );
+    update securityDecision.getRecords();
+
+    System.assertEquals(
+      300,
+      securityDecision.getRecords().size(),
+      'Accounts were not created'
+    );
+  }
+
+  @isTest
+  public static void shouldCreateChildAccount2() {
+    List<Account> accounts = new List<Account>();
+
+    List<Account> accountList = TestDataFactory.CreateBasicAccounts(
+      300,
+      'TestAccount'
+    );
+    for (Account singleaccount : accountList) {
+      singleaccount.rating = 'Cold';
+      accounts.add(singleaccount);
+    }
+
     SObjectAccessDecision securityDecision = Security.stripInaccessible(
       AccessType.CREATABLE,
       accounts
