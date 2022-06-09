@@ -1,5 +1,5 @@
 /**
- * @description       : Trigger on Account Trigger
+ * @description       : Trigger on Account Trigger only after update context
  * @author            : Denzyl Evelyn
  * @group             :
  * @last modified on  : 06-09-2022
